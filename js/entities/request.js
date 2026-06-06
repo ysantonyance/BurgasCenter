@@ -1,20 +1,17 @@
 var selectedUrgency = 'high';
 
-// Брояч символи
 document.getElementById('reqDesc').addEventListener('input', function() {
   var len = this.value.length;
   document.getElementById('charCount').textContent = len;
   if (len > 1000) this.value = this.value.substring(0, 1000);
 });
 
-// Спешност
 function selectUrgency(level) {
   selectedUrgency = level;
   document.querySelectorAll('.urgency-btn').forEach(function(b) { b.classList.remove('selected'); });
   document.getElementById('urg-' + level).classList.add('selected');
 }
 
-// Снимка — преглед
 function previewPhoto(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
@@ -36,7 +33,6 @@ function removePhoto() {
   document.getElementById('photoInfo').style.display = 'none';
 }
 
-// Избор на институция
 function toggleSolver(checkbox) {
   var card = checkbox.closest('.solver-card');
   if (checkbox.checked) {
@@ -47,7 +43,6 @@ function toggleSolver(checkbox) {
   document.getElementById('solverWarning').style.display = 'none';
 }
 
-// Подсказка за тип
 var typeHints = {
   food: 'Ще търсим доброволци, хранителни банки и НПО в района ти.',
   medical: 'Ще свържем с лекари доброволци и здравни институции.',
@@ -65,7 +60,6 @@ function updateTypeHint() {
   hint.textContent = typeHints[val] || '';
 }
 
-// Изпращане
 document.getElementById('requestForm').addEventListener('submit', function(e) {
   e.preventDefault();
 

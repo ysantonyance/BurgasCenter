@@ -1,4 +1,3 @@
-// ===== NAVBAR — меняет фон при скролле =====
 var navbar = document.querySelector('nav');
 
 window.addEventListener('scroll', function() {
@@ -9,7 +8,6 @@ window.addEventListener('scroll', function() {
   }
 });
 
-// ===== ПЛАВНАЯ ПРОКРУТКА по якорям =====
 var navLinks = document.querySelectorAll('a[href^="#"]');
 
 navLinks.forEach(function(link) {
@@ -23,7 +21,7 @@ navLinks.forEach(function(link) {
   });
 });
 
-// ===== КНОПКИ — теперь ведут на страницы =====
+
 var helpButtons = document.querySelectorAll('.btn-help');
 helpButtons.forEach(function(btn) {
   btn.addEventListener('click', function() {
@@ -45,7 +43,6 @@ offerButtons.forEach(function(btn) {
   });
 });
 
-// ===== СЧЁТЧИК — анимирует число в герое =====
 function animateCounter(element, target, duration) {
   var start = 0;
   var step = target / (duration / 16);
@@ -77,7 +74,6 @@ if (counterEl) {
   observer.observe(counterEl);
 }
 
-// ===== КАРТОЧКИ — появляются при скролле =====
 var cards = document.querySelectorAll('.card, .feature-card, .job-card, .testimonial-card');
 
 var cardObserver = new IntersectionObserver(function(entries) {
@@ -96,7 +92,6 @@ cards.forEach(function(card) {
   cardObserver.observe(card);
 });
 
-// ===== КНОПКИ ВХОДА И РЕГИСТРАЦИИ — ведут на страницы =====
 var loginBtn = document.getElementById('loginBtn');
 var registerBtn = document.getElementById('registerBtn');
 
@@ -146,11 +141,9 @@ const CAT_META = {
   education:    { label:"Образование",icon:"🎓",bg:"#f5f0ff", color:"#6633aa" },
 };
 
-// ── СТЕЙТ ────────────────────────────────────────────
 let activeCategory = null;
 let searchQuery = '';
 
-// ── МОДАЛ ────────────────────────────────────────────
 function openModal() {
   document.getElementById('institutionsModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -169,7 +162,6 @@ function handleOverlayClick(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// ── ФИЛТРИ ───────────────────────────────────────────
 function buildFilters() {
   const wrap = document.getElementById('modalFilters');
 
@@ -246,7 +238,6 @@ function renderCards() {
   }).join('');
 }
 
-// ===== АНИМАЦИЯ НА PROGRESS БРОЯЧА =====
 function animateProgressCounter() {
   const counterElement = document.getElementById('progressCounter');
   const progressFill = document.getElementById('progressFill');
@@ -256,12 +247,12 @@ function animateProgressCounter() {
     return;
   }
 
-  const target = 1200; // колко души са помогнали
-  const goal = 5000;   // целта
+  const target = 1200;
+  const goal = 5000;
   const percent = Math.floor((target / goal) * 100);
 
   let current = 0;
-  const duration = 2000; // 2 секунди
+  const duration = 2000;
   const increment = target / (duration / 16);
 
   function updateCounter() {
@@ -292,7 +283,6 @@ function animateProgressCounter() {
   observer.observe(counterElement);
 }
 
-// Стартирай анимацията
 document.addEventListener('DOMContentLoaded', function() {
   animateProgressCounter();
 });
