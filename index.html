@@ -1,20 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="bg">
 <head>
-  <title>Burgas Citizen Hub</title>
-  <link rel='stylesheet' href='css/style.css'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бургас Гражданин / Burgas Citizen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@400;700;900&family=Noto+Sans+Bulgarian:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>Burgas Citizen Hub</h1>
 
-<button onclick="loadInstitutions()">Load Institutions</button>
-<div id="list"></div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-mark">⬡</span>
+      <div class="logo-text">
+        <span class="logo-main" data-bg="БУРГАС ГРАЖДАНИН" data-en="BURGAS CITIZEN">БУРГАС ГРАЖДАНИН</span>
+        <span class="logo-sub" data-bg="Единен център за обслужване" data-en="Unified Citizen Services">Единен център за обслужване</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#institutions" data-bg="Учреждения" data-en="Institutions">Учреждения</a>
+      <a href="#map" data-bg="Карта" data-en="Map">Карта</a>
+      <a href="#complaint" data-bg="Обращение" data-en="Complaint">Обращение</a>
+    </nav>
+    <button class="lang-btn" id="langBtn">EN</button>
+  </div>
+</header>
 
-<h2>Send Complaint</h2>
-<input id="title" placeholder="Title">
-<textarea id="description" placeholder="Description"></textarea>
-<button onclick="sendComplaint()">Send</button>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" data-bg="Бургас · България" data-en="Burgas · Bulgaria">Бургас · България</p>
+    <h1 class="hero-title">
+      <span class="hero-line" data-bg="Всички услуги." data-en="All services.">Всички услуги.</span>
+      <span class="hero-line accent" data-bg="Едно място." data-en="One place.">Едно място.</span>
+    </h1>
+    <p class="hero-desc" data-bg="Намери учреждението, изпрати обращение, виж картата — бързо и без бюрокрация." data-en="Find the right institution, submit a request, view the map — fast and without bureaucracy.">Намери учреждението, изпрати обращение, виж картата — бързо и без бюрокрация.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label" data-bg="учреждения" data-en="institutions">учреждения</span></div>
+      <div class="stat"><span class="stat-num">24+</span><span class="stat-label" data-bg="услуги" data-en="services">услуги</span></div>
+      <div class="stat"><span class="stat-num">1</span><span class="stat-label" data-bg="град" data-en="city">град</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hex-grid">
+      <div>
+        <img src="" alt="">
+        <button>Call</button>
+      </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- FILTER + INSTITUTIONS -->
+<section class="section" id="institutions">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-bg="Учреждения" data-en="Institutions">Учреждения</h2>
+      <p data-bg="Официална информация за контакти и услуги" data-en="Official contact information and services">Официална информация за контакти и услуги</p>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-cat="all" data-bg="Всички" data-en="All">Всички</button>
+      <button class="filter-btn" data-cat="municipality" data-bg="Община" data-en="Municipality">Община</button>
+      <button class="filter-btn" data-cat="police" data-bg="МВР" data-en="Police">МВР</button>
+      <button class="filter-btn" data-cat="social" data-bg="НОИ" data-en="Social">НОИ</button>
+      <button class="filter-btn" data-cat="tax" data-bg="НАП" data-en="Tax">НАП</button>
+      <button class="filter-btn" data-cat="health" data-bg="Здраве" data-en="Health">Здраве</button>
+      <button class="filter-btn" data-cat="employment" data-bg="Труд" data-en="Employment">Труд</button>
+      <button class="filter-btn" data-cat="registry" data-bg="Регистри" data-en="Registry">Регистри</button>
+    </div>
+
+    <div class="institutions-grid" id="institutionsGrid">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="section section-dark" id="map">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-bg="Карта" data-en="Map">Карта</h2>
+      <p data-bg="Местоположения на учрежденията в Бургас" data-en="Institution locations in Burgas">Местоположения на учрежденията в Бургас</p>
+    </div>
+    <div class="map-wrap">
+      <div id="map-container"></div>
+      <div class="map-legend" id="mapLegend"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLAINT FORM -->
+<section class="section" id="complaint">
+  <div class="container container-narrow">
+    <div class="section-header">
+      <h2 data-bg="Изпрати обращение" data-en="Submit a Request">Изпрати обращение</h2>
+      <p data-bg="Данните се записват онлайн чрез JSONBin API" data-en="Data is saved online via JSONBin API">Данните се записват онлайн чрез JSONBin API</p>
+    </div>
+
+    <div class="form-card" id="formCard">
+      <div class="form-group">
+        <label data-bg="Вашето ime" data-en="Your name">Вашето ime</label>
+        <input type="text" id="f-name" placeholder="Иван Иванов" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label data-bg="Имейл" data-en="Email">Имейл</label>
+        <input type="email" id="f-email" placeholder="ivan@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label data-bg="Учреждение" data-en="Institution">Учреждение</label>
+        <select id="f-institution">
+          <!-- filled by JS -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-bg="Тема" data-en="Subject">Тема</label>
+        <input type="text" id="f-subject" placeholder="">
+      </div>
+      <div class="form-group">
+        <label data-bg="Описание" data-en="Description">Описание</label>
+        <textarea id="f-description" rows="5" placeholder=""></textarea>
+      </div>
+      <button class="submit-btn" id="submitBtn">
+        <span data-bg="Изпрати" data-en="Send">Изпрати</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <div class="form-status" id="formStatus"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="logo-mark">⬡</span>
+    <p data-bg="Учебен проект · Данните са от официални сайтове · Бургас 2025" data-en="Educational project · Data from official sources · Burgas 2025">Учебен проект · Данните са от официални сайтове · Бургас 2025</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
