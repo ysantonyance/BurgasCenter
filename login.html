@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — ГПР</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <a href="index.html"><img src="logo_proekt.png" alt=""></a>
+    <div class="nav-logo"><a href="index.html">ГПР - Грижа, Посока, Решение</a></div>
+  </div>
+  <div class="nav-buttons">
+    <a href="register.html"><button class="btn-navy">Регистрация</button></a>
+  </div>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-box">
+    <div class="auth-icon">🤝</div>
+    <h1>Добре дошъл!</h1>
+    <p class="auth-desc">Влез в профила си и помогни на общността</p>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label for="email">Имейл адрес</label>
+        <input type="email" id="email" placeholder="example@mail.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Парола</label>
+        <div class="input-with-toggle">
+          <input type="password" id="password" placeholder="Въведи паролата си" required>
+          <button type="button" class="toggle-pass" onclick="togglePassword('password', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-row-between">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember"> Запомни ме
+        </label>
+        <a href="#" class="forgot-link">Забравена парола?</a>
+      </div>
+
+      <button type="submit" class="btn-green btn-full">Влез</button>
+
+      <div class="auth-divider"><span>или</span></div>
+
+      <button type="button" class="btn-social" onclick="alert('Google вход скоро!')">
+        <span>🔵</span> Влез с Google
+      </button>
+      <button type="button" class="btn-social" onclick="alert('Facebook вход скоро!')">
+        <span>🔷</span> Влез с Facebook
+      </button>
+
+    </form>
+
+    <p class="auth-switch">Нямаш профил? <a href="register.html">Регистрирай се</a></p>
+  </div>
+</main>
+
+<script src="js/entities/login.js"></script>
+
+</body>
+</html>

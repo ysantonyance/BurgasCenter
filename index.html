@@ -3,148 +3,316 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Бургас Гражданин / Burgas Citizen</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@400;700;900&family=Noto+Sans+Bulgarian:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <title>Грижа, Посока, Решение</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <div class="header-inner">
-    <div class="logo">
-      <span class="logo-mark">⬡</span>
-      <div class="logo-text">
-        <span class="logo-main" data-bg="БУРГАС ГРАЖДАНИН" data-en="BURGAS CITIZEN">БУРГАС ГРАЖДАНИН</span>
-        <span class="logo-sub" data-bg="Единен център за обслужване" data-en="Unified Citizen Services">Единен център за обслужване</span>
+<nav>
+  <div class="logo">
+    <a href="index.html"><img src="logo_proekt.png" alt=""></a>
+    <div class="nav-logo"><a href="index.html">ГПР - Грижа, Посока, Решение</a></div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#hero">Начало</a></li>
+    <li><a href="#how">Как работи</a></li>
+    <li><a href="#features">Услуги</a></li>
+    <li><a href="#jobs">Обяви</a></li>
+    <li><a href="#testimonials">Отзиви</a></li>
+    <li><a href="#footer">Контакти</a></li>
+  </ul>
+
+  <div class="nav-buttons">
+    <button class="btn-navy" id="registerBtn">Създай профил</button>
+    <button class="btn-green" id="loginBtn">Влез</button>
+  </div>
+</nav>
+
+<section id="hero" class="hero-with-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-text">
+    <h1>Помощ без лутане</h1>
+    <p class="subtitle">Грижа. Посока. Решение.</p>
+    <p>Платформата, която свързва хората в нужда с доброволци, организации и институции. Заедно намираме решения.</p>
+
+    <div class="hero-buttons">
+      <button class="btn-green btn-seek">Потърси помощ</button>
+      <button class="btn-white btn-offer">Предложи помощ</button>
+    </div>
+
+    <button class="btn-red">⚠️ Незабавна помощ</button>
+    <div class="progress-section">
+      <div class="progress-header">
+        <span>Помогнахме на</span>
+        <span class="progress-number"><span id="progressCounter">0</span> души</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-goal">
+        <span>Цел: 5,000 души</span>
+        <span>24% от целта</span>
       </div>
     </div>
-    <nav class="nav-links">
-      <a href="#institutions" data-bg="Учреждения" data-en="Institutions">Учреждения</a>
-      <a href="#map" data-bg="Карта" data-en="Map">Карта</a>
-      <a href="#complaint" data-bg="Обращение" data-en="Complaint">Обращение</a>
-    </nav>
-    <button class="lang-btn" id="langBtn">EN</button>
-  </div>
-</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow" data-bg="Бургас · България" data-en="Burgas · Bulgaria">Бургас · България</p>
-    <h1 class="hero-title">
-      <span class="hero-line" data-bg="Всички услуги." data-en="All services.">Всички услуги.</span>
-      <span class="hero-line accent" data-bg="Едно място." data-en="One place.">Едно място.</span>
-    </h1>
-    <p class="hero-desc" data-bg="Намери учреждението, изпрати обращение, виж картата — бързо и без бюрокрация." data-en="Find the right institution, submit a request, view the map — fast and without bureaucracy.">Намери учреждението, изпрати обращение, виж картата — бързо и без бюрокрация.</p>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-num">8</span><span class="stat-label" data-bg="учреждения" data-en="institutions">учреждения</span></div>
-      <div class="stat"><span class="stat-num">24+</span><span class="stat-label" data-bg="услуги" data-en="services">услуги</span></div>
-      <div class="stat"><span class="stat-num">1</span><span class="stat-label" data-bg="град" data-en="city">град</span></div>
-    </div>
   </div>
-  <div class="hero-visual">
-    <div class="hex-grid">
+</section>
+
+<div class="hero-cards">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-red">🚨</div>
       <div>
-        <img src="" alt="">
-        <button>Call</button>
+        <div class="card-title">Нужда от храна за семейство</div>
+        <div class="card-meta">Бургас, кв. Победа · преди 2 часа</div>
+        <div class="card-tags">
+          <span class="tag tag-red">Спешно</span>
+          <span class="tag tag-green">3 отговора</span>
+        </div>
       </div>
+    </div>
+  </div>
 
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-blue">🏠</div>
+      <div>
+        <div class="card-title">Помощ с преместване на възрастна жена</div>
+        <div class="card-meta">Бургас, Център · преди 5 часа</div>
+        <div class="card-tags">
+          <span class="tag tag-blue">Бит</span>
+          <span class="tag tag-green">7 отговора</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-green">🩺</div>
+      <div>
+        <div class="card-title">Търся безплатен лекарски преглед</div>
+        <div class="card-meta">Бургас, ж.к. Изгрев · преди 1 ден</div>
+        <div class="card-tags">
+          <span class="tag tag-gray">Здраве</span>
+          <span class="tag tag-green">Решено ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section id="how" class="section">
+  <h2>Как работи?</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-number green">1</div>
+      <h4>Сподели проблема</h4>
+      <p>Опиши от какво имаш нужда – бързо и лесно, без формалности.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number blue">2</div>
+      <h4>Общността реагира</h4>
+      <p>Доброволци и организации виждат заявката и предлагат решения.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number navy">3</div>
+      <h4>Намери решение</h4>
+      <p>Свържете се, координирайте и решете проблема заедно.</p>
     </div>
   </div>
 </section>
 
-<!-- FILTER + INSTITUTIONS -->
-<section class="section" id="institutions">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-bg="Учреждения" data-en="Institutions">Учреждения</h2>
-      <p data-bg="Официална информация за контакти и услуги" data-en="Official contact information and services">Официална информация за контакти и услуги</p>
+<section id="features" class="section">
+  <h2>Как можем да помогнем?</h2>
+  <p class="section-desc">Три начина да намериш подкрепа или да подкрепиш другите</p>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background-color: #edfff0;">👥</div>
+      <h3>Помощ от хора</h3>
+      <p>Свържи се с доброволци и съседи, готови да помогнат с конкретни нужди.</p>
     </div>
 
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" data-cat="all" data-bg="Всички" data-en="All">Всички</button>
-      <button class="filter-btn" data-cat="municipality" data-bg="Община" data-en="Municipality">Община</button>
-      <button class="filter-btn" data-cat="police" data-bg="МВР" data-en="Police">МВР</button>
-      <button class="filter-btn" data-cat="social" data-bg="НОИ" data-en="Social">НОИ</button>
-      <button class="filter-btn" data-cat="tax" data-bg="НАП" data-en="Tax">НАП</button>
-      <button class="filter-btn" data-cat="health" data-bg="Здраве" data-en="Health">Здраве</button>
-      <button class="filter-btn" data-cat="employment" data-bg="Труд" data-en="Employment">Труд</button>
-      <button class="filter-btn" data-cat="registry" data-bg="Регистри" data-en="Registry">Регистри</button>
+    <div class="feature-card">
+      <div class="feature-icon" style="background-color: #eef4ff;">🏛️</div>
+      <h3>Връзка с институции</h3>
+      <p>Намери правилната организация или служба, която може да реши проблема ти.</p>
+      <button class="btn-navy" style="margin-top: 16px; width: 100%;" onclick="openModal()">Виж институциите →</button>
     </div>
 
-    <div class="institutions-grid" id="institutionsGrid">
-      <!-- rendered by JS -->
+    <div class="feature-card">
+      <div class="feature-icon" style="background-color: #e8edf2;">📢</div>
+      <h3>Обществени каузи</h3>
+      <p>Включи се в каузи, които променят общността и живота на хората около теб.</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="jobs" class="section">
+  <h2>Обяви за помощ</h2>
+  <p class="section-desc">Реални заявки от хора в Бургас, които имат нужда от теб</p>
+
+  <div class="jobs-grid">
+
+    <div class="job-card">
+      <div class="job-image" style="background-color: #edfff0;">🛍️</div>
+      <div class="job-body">
+        <span class="tag tag-blue">Хранителни продукти</span>
+        <h4>Пакет с храна за самотен пенсионер</h4>
+        <p>Нужда от основни хранителни продукти за седмица.</p>
+        <div class="job-location">Бургас, кв. Победа</div>
+        <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-image" style="background-color: #eef4ff;">📚</div>
+      <div class="job-body">
+        <span class="tag tag-gray">Образование</span>
+        <h4>Частни уроци по математика за 7 клас</h4>
+        <p>Дете от приемно семейство търси помощ с училищен материал.</p>
+        <div class="job-location">Бургас, Център</div>
+        <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-image" style="background-color: #f0fff0;">🔧</div>
+      <div class="job-body">
+        <span class="tag tag-green">Ремонт</span>
+        <h4>Смяна на брава на входна врата</h4>
+        <p>Възрастна жена без близки, живееща сама, има нужда от помощ.</p>
+        <div class="job-location">Бургас, ж.к. Изгрев</div>
+        <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="testimonials" class="section">
+  <h2>Истории на успеха</h2>
+
+  <div class="testimonials-grid">
+
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <div class="avatar avatar-green">М</div>
+        <div>
+          <div class="testimonial-name">Мария Иванова</div>
+          <div class="testimonial-city">Бургас</div>
+        </div>
+      </div>
+      <p class="testimonial-text">"За 2 дни намерих доброволец, който помогна на майка ми с ежедневните покупки. Благодаря на тази платформа!"</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <div class="avatar avatar-blue">Г</div>
+        <div>
+          <div class="testimonial-name">Георги Петров</div>
+          <div class="testimonial-city">Бургас</div>
+        </div>
+      </div>
+      <p class="testimonial-text">"Като доброволец вече съм помогнал на 15 семейства. Чувството е невероятно – да знаеш, че правиш разлика."</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <div class="avatar avatar-navy">Е</div>
+        <div>
+          <div class="testimonial-name">Елена Димитрова</div>
+          <div class="testimonial-city">Бургас</div>
+        </div>
+      </div>
+      <p class="testimonial-text">"Институцията, с която ме свързаха, реши казуса ми за седмица. Не знаех, че има такава услуга!"</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-box">
+    <h2>Готов ли си да направиш промяна?</h2>
+    <p>Присъедини се към общността и помогни на някого днес.</p>
+    <div class="cta-buttons">
+      <button class="btn-green btn-seek">Започни сега</button>
+      <button class="btn-white">Научи повече</button>
     </div>
   </div>
 </section>
 
-<!-- MAP -->
-<section class="section section-dark" id="map">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-bg="Карта" data-en="Map">Карта</h2>
-      <p data-bg="Местоположения на учрежденията в Бургас" data-en="Institution locations in Burgas">Местоположения на учрежденията в Бургас</p>
+<footer id="footer">
+  <div class="footer-grid">
+
+    <div class="footer-col">
+      <div class="footer-logo">Грижа, Посока, Решение</div>
+      <p>Платформа за взаимопомощ и общностна подкрепа в България.</p>
     </div>
-    <div class="map-wrap">
-      <div id="map-container"></div>
-      <div class="map-legend" id="mapLegend"></div>
+
+    <div class="footer-col">
+      <h5>Навигация</h5>
+      <a href="#hero">Начало</a>
+      <a href="#how">Как работи</a>
+      <a href="#jobs">Обяви</a>
+      <a href="#footer">Контакти</a>
     </div>
+
+    <div class="footer-col">
+      <h5>Правна информация</h5>
+      <a href="#">Общи условия</a>
+      <a href="#">Политика за поверителност</a>
+      <a href="#">Бисквитки</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Контакти</h5>
+      <p>info@gpr.bg</p>
+      <p>+359 56 123 4567</p>
+    </div>
+
   </div>
-</section>
 
-<!-- COMPLAINT FORM -->
-<section class="section" id="complaint">
-  <div class="container container-narrow">
-    <div class="section-header">
-      <h2 data-bg="Изпрати обращение" data-en="Submit a Request">Изпрати обращение</h2>
-      <p data-bg="Данните се записват онлайн чрез JSONBin API" data-en="Data is saved online via JSONBin API">Данните се записват онлайн чрез JSONBin API</p>
-    </div>
-
-    <div class="form-card" id="formCard">
-      <div class="form-group">
-        <label data-bg="Вашето ime" data-en="Your name">Вашето ime</label>
-        <input type="text" id="f-name" placeholder="Иван Иванов" autocomplete="name">
-      </div>
-      <div class="form-group">
-        <label data-bg="Имейл" data-en="Email">Имейл</label>
-        <input type="email" id="f-email" placeholder="ivan@example.com" autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label data-bg="Учреждение" data-en="Institution">Учреждение</label>
-        <select id="f-institution">
-          <!-- filled by JS -->
-        </select>
-      </div>
-      <div class="form-group">
-        <label data-bg="Тема" data-en="Subject">Тема</label>
-        <input type="text" id="f-subject" placeholder="">
-      </div>
-      <div class="form-group">
-        <label data-bg="Описание" data-en="Description">Описание</label>
-        <textarea id="f-description" rows="5" placeholder=""></textarea>
-      </div>
-      <button class="submit-btn" id="submitBtn">
-        <span data-bg="Изпрати" data-en="Send">Изпрати</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-      <div class="form-status" id="formStatus"></div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <span class="logo-mark">⬡</span>
-    <p data-bg="Учебен проект · Данните са от официални сайтове · Бургас 2025" data-en="Educational project · Data from official sources · Burgas 2025">Учебен проект · Данните са от официални сайтове · Бургас 2025</p>
+  <div class="footer-bottom">
+    © 2024 Грижа, Посока, Решение. Всички права запазени.
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<div id="institutionsModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">🏛️ Институции в Бургас</h2>
+        <p class="modal-subtitle">Намери правилната служба и нейните контакти</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-controls">
+      <input type="text" id="modalSearch" class="modal-search" placeholder="🔍  Търси по название, услуга…" oninput="filterInstitutions()">
+      <div class="modal-filters" id="modalFilters"></div>
+    </div>
+
+    <div class="modal-count" id="modalCount"></div>
+
+    <div class="modal-grid" id="modalGrid"></div>
+
+  </div>
+</div>
+
 <script src="js/app.js"></script>
 </body>
 </html>

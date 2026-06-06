@@ -1,223 +1,298 @@
-// ── STATE ──────────────────────────────────────────────
-let lang = 'bg';
-let allInstitutions = [];
-let activeFilter = 'all';
-let map = null;
-let markers = [];
+// ===== NAVBAR — меняет фон при скролле =====
+var navbar = document.querySelector('nav');
 
-// JSONBin config — public bin for demo
-const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/665f1e1c1cd6cb3491cf81f1';
-const JSONBIN_KEY = '$2a$10$placeholder'; // read-only public, write needs key
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 30) {
+    navbar.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)';
+  } else {
+    navbar.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+  }
+});
 
-// ── I18N HELPERS ───────────────────────────────────────
-const t = (el) => {
-  const key = `data-${lang}`;
-  return el.getAttribute(key) || el.textContent;
-};
+// ===== ПЛАВНАЯ ПРОКРУТКА по якорям =====
+var navLinks = document.querySelectorAll('a[href^="#"]');
 
-function applyLang() {
-  document.querySelectorAll('[data-bg]').forEach(el => {
-    el.textContent = t(el);
+navLinks.forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var targetId = this.getAttribute('href');
+    var target = document.querySelector(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
-  document.getElementById('langBtn').textContent = lang === 'bg' ? 'EN' : 'БГ';
-  renderCards(activeFilter);
-  updateFormSelect();
-}
-
-document.getElementById('langBtn').addEventListener('click', () => {
-  lang = lang === 'bg' ? 'en' : 'bg';
-  applyLang();
 });
 
-// ── CATEGORY META ──────────────────────────────────────
-const CAT = {
-  municipality: { color: '#2563EB', bg: 'Община',  en: 'Municipality' },
-  police:       { color: '#1D4ED8', bg: 'МВР',     en: 'Police' },
-  social:       { color: '#7C3AED', bg: 'НОИ',     en: 'Social' },
-  tax:          { color: '#D97706', bg: 'НАП',     en: 'Tax' },
-  health:       { color: '#DC2626', bg: 'Здраве',  en: 'Health' },
-  employment:   { color: '#059669', bg: 'Труд',    en: 'Employment' },
-  registry:     { color: '#0891B2', bg: 'Регистри',en: 'Registry' },
-};
-
-const ICONS = {
-  address: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
-  phone:   `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.15 2.82 2 2 0 012.11 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.27 8.91a16 16 0 006.72 6.72l1.06-1.06a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>`,
-  clock:   `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-  web:     `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`,
-  mail:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
-};
-
-// ── LOAD DATA ──────────────────────────────────────────
-async function loadData() {
-  const resp = await fetch('data/institutions.json');
-  allInstitutions = await resp.json();
-  renderCards('all');
-  initMap();
-  updateFormSelect();
-}
-
-// ── RENDER CARDS ───────────────────────────────────────
-function renderCards(cat) {
-  activeFilter = cat;
-  const grid = document.getElementById('institutionsGrid');
-  const data = cat === 'all' ? allInstitutions : allInstitutions.filter(i => i.category === cat);
-
-  grid.innerHTML = data.map((inst, idx) => {
-    const name    = lang === 'bg' ? inst.name_bg    : inst.name_en;
-    const address = lang === 'bg' ? inst.address_bg : inst.address_en;
-    const hours   = lang === 'bg' ? inst.hours_bg   : inst.hours_en;
-    const services= lang === 'bg' ? inst.services_bg: inst.services_en;
-    const catMeta = CAT[inst.category] || {};
-    const badge   = lang === 'bg' ? catMeta.bg : catMeta.en;
-
-    return `
-      <div class="inst-card cat-${inst.category}" style="animation-delay:${idx * 0.05}s">
-        <div class="card-top">
-          <div class="card-name">${name}</div>
-          <div class="card-badge">${badge}</div>
-        </div>
-        <div class="card-info">
-          <div class="card-row">${ICONS.address}<span>${address}</span></div>
-          <div class="card-row">${ICONS.phone}<span>${inst.phone}</span></div>
-          <div class="card-row">${ICONS.clock}<span>${hours}</span></div>
-        </div>
-        <div class="card-services">
-          ${services.map(s => `<span class="service-tag">${s}</span>`).join('')}
-        </div>
-        <div class="card-links">
-          <a class="card-link" href="https://${inst.website.replace('https://','')}" target="_blank" rel="noopener">
-            ${ICONS.web} ${lang === 'bg' ? 'Сайт' : 'Website'}
-          </a>
-          <a class="card-link" href="mailto:${inst.email}">
-            ${ICONS.mail} ${inst.email}
-          </a>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-// ── FILTER BUTTONS ─────────────────────────────────────
-document.getElementById('filterBar').addEventListener('click', e => {
-  const btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCards(btn.dataset.cat);
+// ===== КНОПКИ — теперь ведут на страницы =====
+var helpButtons = document.querySelectorAll('.btn-help');
+helpButtons.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    window.location.href = 'request.html';
+  });
 });
 
-// ── MAP ────────────────────────────────────────────────
-function initMap() {
-  map = L.map('map-container').setView([42.497, 27.468], 14);
+var seekButtons = document.querySelectorAll('.btn-seek');
+seekButtons.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    window.location.href = 'request.html';
+  });
+});
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap contributors © CARTO',
-    maxZoom: 19
-  }).addTo(map);
+var offerButtons = document.querySelectorAll('.btn-offer');
+offerButtons.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    window.location.href = 'register.html';
+  });
+});
 
-  const legend = document.getElementById('mapLegend');
-  legend.innerHTML = '';
+// ===== СЧЁТЧИК — анимирует число в герое =====
+function animateCounter(element, target, duration) {
+  var start = 0;
+  var step = target / (duration / 16);
 
-  allInstitutions.forEach(inst => {
-    const catMeta = CAT[inst.category] || { color: '#D4450C' };
-    const color   = catMeta.color;
+  var timer = setInterval(function() {
+    start += step;
+    if (start >= target) {
+      start = target;
+      clearInterval(timer);
+    }
+    element.textContent = Math.floor(start).toLocaleString() + '+';
+  }, 16);
+}
 
-    // Custom icon
-    const icon = L.divIcon({
-      className: '',
-      html: `<div style="
-        width:14px;height:14px;
-        background:${color};
-        border:2.5px solid #fff;
-        border-radius:50%;
-        box-shadow:0 2px 8px rgba(0,0,0,0.4);
-      "></div>`,
-      iconSize: [14, 14],
-      iconAnchor: [7, 7],
+var counterEl = document.getElementById('counter');
+
+if (counterEl) {
+  var counterStarted = false;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !counterStarted) {
+        counterStarted = true;
+        animateCounter(counterEl, 1200, 1500);
+      }
     });
+  });
 
-    const name = lang === 'bg' ? inst.name_bg : inst.name_en;
-    const m = L.marker([inst.lat, inst.lng], { icon })
-      .addTo(map)
-      .bindPopup(`<strong style="font-family:sans-serif;font-size:13px">${inst.name_bg}</strong><br><small>${inst.address_bg}</small><br><small>${inst.phone}</small>`);
+  observer.observe(counterEl);
+}
 
-    markers.push({ marker: m, inst });
+// ===== КАРТОЧКИ — появляются при скролле =====
+var cards = document.querySelectorAll('.card, .feature-card, .job-card, .testimonial-card');
 
-    // Legend item
-    const item = document.createElement('div');
-    item.className = 'legend-item';
-    item.innerHTML = `<span class="legend-dot" style="background:${color}"></span><span>${inst.name_bg}</span>`;
-    item.addEventListener('click', () => {
-      map.setView([inst.lat, inst.lng], 16);
-      m.openPopup();
-    });
-    legend.appendChild(item);
+var cardObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+cards.forEach(function(card) {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  cardObserver.observe(card);
+});
+
+// ===== КНОПКИ ВХОДА И РЕГИСТРАЦИИ — ведут на страницы =====
+var loginBtn = document.getElementById('loginBtn');
+var registerBtn = document.getElementById('registerBtn');
+
+if (loginBtn) {
+  loginBtn.addEventListener('click', function() {
+    window.location.href = 'login.html';
   });
 }
 
-// ── FORM ───────────────────────────────────────────────
-function updateFormSelect() {
-  const sel = document.getElementById('f-institution');
-  sel.innerHTML = allInstitutions.map(i =>
-    `<option value="${i.id}">${lang === 'bg' ? i.name_bg : i.name_en}</option>`
-  ).join('');
+if (registerBtn) {
+  registerBtn.addEventListener('click', function() {
+    window.location.href = 'register.html';
+  });
 }
 
-document.getElementById('submitBtn').addEventListener('click', async () => {
-  const name    = document.getElementById('f-name').value.trim();
-  const email   = document.getElementById('f-email').value.trim();
-  const instId  = document.getElementById('f-institution').value;
-  const subject = document.getElementById('f-subject').value.trim();
-  const desc    = document.getElementById('f-description').value.trim();
-  const status  = document.getElementById('formStatus');
-  const btn     = document.getElementById('submitBtn');
+const INSTITUTIONS = [
+  { id:1, category:"municipality", name:"Община Бургас – Център за административно обслужване", address:"ул. 'Александровска' 26", phone:"056 907 200", email:"obshtina@burgas.bg", website:"https://www.burgas.bg", hours:"Пон–Пет: 08:30–17:30", services:["Лична карта","Регистрация адрес","Строителни разрешения","Социални услуги"] },
+  { id:2, category:"municipality", name:"Дирекция 'Местни данъци и такси'", address:"ул. 'Конт Андрованти' 1", phone:"056 907 222", email:"mdt@burgas.bg", website:"https://www.burgas.bg", hours:"Пон–Пет: 08:30–17:30", services:["Данък имоти","Такса смет","МПС данък"] },
+  { id:3, category:"state", name:"Областна администрация – Бургас", address:"ул. 'Цар Петър' 1", phone:"056 842 044", email:"governor@bsregion.org", website:"https://www.bs.government.bg", hours:"Пон–Пет: 09:00–17:30", services:["Концесии","Областни стратегии","Административни услуги"] },
+  { id:4, category:"police", name:"ОДМВР – Бургас", address:"ул. 'Христо Ботев' 46", phone:"056 871 111", email:"od_burgas@mvr.bg", website:"https://www.mvr.bg/burgas", hours:"Пон–Пет: 08:30–17:30", services:["Паспорти","Шофьорски книжки","Регистрация МПС"] },
+  { id:5, category:"police", name:"КАТ – Сектор 'Пътна полиция'", address:"ул. 'Янко Комитов' 34", phone:"056 856 347", email:"trafficpoliceburgas@mvr.bg", website:"https://www.mvr.bg/burgas", hours:"Пон–Пет: 08:30–17:30", services:["Регистрация МПС","КАТ глоби","Шофьорски книжки"] },
+  { id:6, category:"tax", name:"НАП – ТД Бургас", address:"пл. 'Жени Патева' 1", phone:"056 878 481", email:"td_burgas@nra.bg", website:"https://www.nra.bg", hours:"Пон–Пет: 09:00–17:30", services:["Данъчни декларации","ДДС регистрация","Удостоверения"] },
+  { id:7, category:"social", name:"ДСП – Дирекция 'Социално подпомагане'", address:"ул. 'Цар Петър' 5Б", phone:"056 813 820", email:"dsp_burgas@mlsp.government.bg", website:"https://www.asp.government.bg", hours:"Пон–Пет: 08:30–17:00", services:["Социални помощи","Детски надбавки","Хора с увреждания"] },
+  { id:8, category:"social", name:"НОИ – ТП Бургас", address:"бул. 'Ст. Стамболов' 126", phone:"056 803 720", email:"burgas@nssi.bg", website:"https://www.nssi.bg", hours:"Пон–Пет: 08:00–16:30", services:["Пенсии","Болничен лист","Майчинство"] },
+  { id:9, category:"health", name:"РЗОК – Бургас", address:"ул. 'Христо Ботев' 66", phone:"056 871 501", email:"burgas@nhif.bg", website:"https://www.nhif.bg", hours:"Пон–Пет: 08:30–17:00", services:["Здравни осигуровки","Избор на лекар","Направления"] },
+  { id:10, category:"employment", name:"Бюро по труда – Бургас", address:"ул. 'Сан Стефано' 105А", phone:"056 842 700", email:"burgas@az.government.bg", website:"https://www.az.government.bg", hours:"Пон–Пет: 09:00–17:30", services:["Регистрация безработни","Посредничество","Обучения"] },
+  { id:11, category:"registry", name:"Агенция по вписванията – Бургас", address:"ул. 'Александровска' 101", phone:"056 820 810", email:"burgas@registryagency.bg", website:"https://www.registryagency.bg", hours:"Пон–Пет: 09:00–17:30", services:["Имотен регистър","Търговски регистър","БУЛСТАТ"] },
+  { id:12, category:"justice", name:"Окръжен съд – Бургас", address:"ул. 'Александровска' 101", phone:"056 825 411", email:"judge@os-burgas.org", website:"http://www.os-burgas.org", hours:"Пон–Пет: 09:00–17:00", services:["Граждански дела","Наказателни дела","Съдебни удостоверения"] },
+  { id:13, category:"justice", name:"Административен съд – Бургас", address:"ул. 'Александровска' 101", phone:"056 825 416", email:"admincourtbs@abv.bg", website:"https://burgas-adms.justice.bg", hours:"Пон–Пет: 09:00–17:00", services:["Обжалване актове","Административни спорове"] },
+  { id:14, category:"environment", name:"РИОСВ – Бургас", address:"ул. 'Перущица' 67, к-с Лазур", phone:"056 813 205", email:"office@riosv-burgas.bg", website:"https://riosv-burgas.bg", hours:"Пон–Пет: 09:00–17:30", services:["ОВОС оценки","Разрешителни води","Сигнали замърсяване"] },
+  { id:15, category:"agriculture", name:"ОД 'Земеделие' – Бургас", address:"ул. 'Цар Иван Шишман' 8", phone:"056 844 303", email:"zemedelie@odzburgas.com", website:"https://www.mzh.government.bg/odz-burgas", hours:"Пон–Пет: 09:00–17:30", services:["Субсидии","Поземлени имоти","Животновъдство"] },
+  { id:16, category:"education", name:"РУО – Бургас", address:"ул. 'Гео Милев' 17", phone:"056 820 315", email:"rio_burgas@mon.bg", website:"https://www.ruo-burgas.com", hours:"Пон–Пет: 09:00–17:30", services:["Записване в училище","Нострификация дипломи","Детски градини"] }
+];
 
-  if (!name || !email || !subject || !desc) {
-    status.className = 'form-status error';
-    status.textContent = lang === 'bg'
-      ? '⚠ Моля попълнете всички полета.'
-      : '⚠ Please fill in all fields.';
+const CAT_META = {
+  municipality: { label:"Общинска",   icon:"🏛️", bg:"#eef4ff", color:"#2255aa" },
+  state:        { label:"Държавна",   icon:"🏢", bg:"#e8edf2", color:"#35546E" },
+  police:       { label:"МВР / КАТ",  icon:"🚔", bg:"#fff0f0", color:"#cc0000" },
+  tax:          { label:"Данъци",     icon:"💰", bg:"#fffbe6", color:"#8a6200" },
+  social:       { label:"Социална",   icon:"🤝", bg:"#edfff0", color:"#2a7a30" },
+  employment:   { label:"Заетост",    icon:"💼", bg:"#edfff0", color:"#479438" },
+  registry:     { label:"Регистри",   icon:"📋", bg:"#eef4ff", color:"#2255aa" },
+  justice:      { label:"Правосъдие",icon:"⚖️", bg:"#f5f0ff", color:"#6633aa" },
+  health:       { label:"Здраве",     icon:"🏥", bg:"#fff3e0", color:"#c05500" },
+  environment:  { label:"Екология",  icon:"🌿", bg:"#edfff0", color:"#2a7a30" },
+  agriculture:  { label:"Земеделие", icon:"🌾", bg:"#fffbe6", color:"#7a6000" },
+  education:    { label:"Образование",icon:"🎓",bg:"#f5f0ff", color:"#6633aa" },
+};
+
+// ── СТЕЙТ ────────────────────────────────────────────
+let activeCategory = null;
+let searchQuery = '';
+
+// ── МОДАЛ ────────────────────────────────────────────
+function openModal() {
+  document.getElementById('institutionsModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!document.getElementById('modalFilters').hasChildNodes()) buildFilters();
+  renderCards();
+}
+
+function closeModal() {
+  document.getElementById('institutionsModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('institutionsModal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── ФИЛТРИ ───────────────────────────────────────────
+function buildFilters() {
+  const wrap = document.getElementById('modalFilters');
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-chip active';
+  allBtn.id = 'chip-all';
+  allBtn.textContent = 'Всички';
+  allBtn.onclick = () => setCategory(null);
+  wrap.appendChild(allBtn);
+
+  const usedCats = [...new Set(INSTITUTIONS.map(i => i.category))];
+  usedCats.forEach(cat => {
+    const m = CAT_META[cat];
+    const btn = document.createElement('button');
+    btn.className = 'filter-chip';
+    btn.id = `chip-${cat}`;
+    btn.textContent = `${m.icon} ${m.label}`;
+    btn.onclick = () => setCategory(cat);
+    wrap.appendChild(btn);
+  });
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  document.getElementById(cat ? `chip-${cat}` : 'chip-all').classList.add('active');
+  renderCards();
+}
+
+function filterInstitutions() {
+  searchQuery = document.getElementById('modalSearch').value.toLowerCase();
+  renderCards();
+}
+
+function renderCards() {
+  const grid = document.getElementById('modalGrid');
+  const filtered = INSTITUTIONS.filter(item => {
+    if (activeCategory && item.category !== activeCategory) return false;
+    if (searchQuery) {
+      const hay = [item.name, item.address, ...item.services].join(' ').toLowerCase();
+      if (!hay.includes(searchQuery)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('modalCount').textContent = `Намерени: ${filtered.length} институции`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="modal-empty">Няма намерени институции. Опитай с друго търсене.</div>';
     return;
   }
 
-  const institution = allInstitutions.find(i => i.id === parseInt(instId));
-  const payload = {
-    timestamp: new Date().toISOString(),
-    name, email, subject, description: desc,
-    institution_id: instId,
-    institution_name: institution?.name_bg || '',
-  };
+  grid.innerHTML = filtered.map(item => {
+    const m = CAT_META[item.category];
+    const tags = item.services.map(s => `<span class="tag tag-gray">${s}</span>`).join('');
+    return `
+    <div class="inst-card">
+      <div class="inst-card-header">
+        <div class="card-icon" style="background-color:${m.bg}">${m.icon}</div>
+        <div>
+          <div class="card-title">${item.name}</div>
+          <span class="tag" style="background:${m.bg};color:${m.color};margin-top:4px;display:inline-block">${m.label}</span>
+        </div>
+      </div>
+      <div class="inst-info">
+        <div class="inst-row">📍 ${item.address}, Бургас</div>
+        <div class="inst-row">🕐 ${item.hours}</div>
+        <div class="inst-row"><a href="tel:${item.phone.replace(/\s/g,'')}" class="inst-link">📞 ${item.phone}</a></div>
+        <div class="inst-row"><a href="mailto:${item.email}" class="inst-link">✉️ ${item.email}</a></div>
+      </div>
+      <div class="card-tags" style="margin-bottom:14px">${tags}</div>
+      <a href="${item.website}" target="_blank" class="btn-navy" style="display:block;text-align:center;font-size:13px;padding:9px">🌐 Официален сайт</a>
+    </div>`;
+  }).join('');
+}
 
-  btn.disabled = true;
-  btn.querySelector('span').textContent = lang === 'bg' ? 'Изпраща...' : 'Sending...';
+// ===== АНИМАЦИЯ НА PROGRESS БРОЯЧА =====
+function animateProgressCounter() {
+  const counterElement = document.getElementById('progressCounter');
+  const progressFill = document.getElementById('progressFill');
 
-  try {
-    // Store complaint in localStorage (works offline, no API key needed)
-    const existing = JSON.parse(localStorage.getItem('burgas_complaints') || '[]');
-    existing.push(payload);
-    localStorage.setItem('burgas_complaints', JSON.stringify(existing));
-
-    // Try JSONBin (will work if you add your own API key above)
-    // await fetch(JSONBIN_URL, { method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY}, body: JSON.stringify(existing) });
-
-    status.className = 'form-status success';
-    status.textContent = lang === 'bg'
-      ? `✓ Обращението е записано! Общо обращения: ${existing.length}`
-      : `✓ Request saved! Total complaints: ${existing.length}`;
-
-    // Reset
-    ['f-name','f-email','f-subject','f-description'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-
-  } catch (err) {
-    status.className = 'form-status error';
-    status.textContent = lang === 'bg' ? '✗ Грешка при изпращане.' : '✗ Error submitting.';
+  if (!counterElement) {
+    console.log('progressCounter не е намерен');
+    return;
   }
 
-  btn.disabled = false;
-  btn.querySelector('span').textContent = lang === 'bg' ? 'Изпрати' : 'Send';
-});
+  const target = 1200; // колко души са помогнали
+  const goal = 5000;   // целта
+  const percent = Math.floor((target / goal) * 100);
 
-// ── INIT ───────────────────────────────────────────────
-loadData();
+  let current = 0;
+  const duration = 2000; // 2 секунди
+  const increment = target / (duration / 16);
+
+  function updateCounter() {
+    current += increment;
+    if (current < target) {
+      counterElement.textContent = Math.floor(current);
+      if (progressFill) {
+        progressFill.style.width = (current / goal) * 100 + '%';
+      }
+      requestAnimationFrame(updateCounter);
+    } else {
+      counterElement.textContent = target;
+      if (progressFill) {
+        progressFill.style.width = percent + '%';
+      }
+    }
+  }
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        updateCounter();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(counterElement);
+}
+
+// Стартирай анимацията
+document.addEventListener('DOMContentLoaded', function() {
+  animateProgressCounter();
+});

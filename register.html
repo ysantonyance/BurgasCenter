@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — ГПР</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <a href="index.html"><img src="logo_proekt.png" alt=""></a>
+    <div class="nav-logo"><a href="index.html">ГПР - Грижа, Посока, Решение</a></div>
+  </div>
+  <div class="nav-buttons">
+    <a href="login.html"><button class="btn-navy">Вход</button></a>
+  </div>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-box">
+    <div class="auth-icon">📝</div>
+    <h1>Създай профил</h1>
+    <p class="auth-desc">Присъедини се към общността и помагай на другите</p>
+
+    <form id="registerForm">
+
+      <div class="form-row-two">
+        <div class="form-group">
+          <label for="firstname">Име</label>
+          <input type="text" id="firstname" placeholder="Иван" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lastname">Фамилия</label>
+          <input type="text" id="lastname" placeholder="Иванов" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Имейл адрес</label>
+        <input type="email" id="email" placeholder="example@mail.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" placeholder="0888 123 456" required>
+      </div>
+
+      <div class="form-group">
+        <label for="city">Град</label>
+        <select id="city" required>
+          <option value="">Избери град</option>
+          <option value="burgas">Бургас</option>
+          <option value="sofia">София</option>
+          <option value="varna">Варна</option>
+          <option value="plovdiv">Пловдив</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Регистрирам се като</label>
+        <select id="role" required>
+          <option value="">Избери</option>
+          <option value="seeker">Търсещ помощ</option>
+          <option value="volunteer">Доброволец</option>
+          <option value="organization">Организация</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Парола</label>
+        <div class="input-with-toggle">
+          <input type="password" id="password" placeholder="Минимум 6 символа" required>
+          <button type="button" class="toggle-pass" onclick="togglePassword('password', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">Потвърди паролата</label>
+        <div class="input-with-toggle">
+          <input type="password" id="confirm_password" placeholder="Повтори паролата" required>
+          <button type="button" class="toggle-pass" onclick="togglePassword('confirm_password', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-row-between">
+        <label class="checkbox-label">
+          <input type="checkbox" id="terms" required> Съгласявам се с <a href="#" style="color:#479438;">Общите условия</a>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-green btn-full">Регистрация</button>
+
+      <div class="auth-divider"><span>или</span></div>
+
+      <button type="button" class="btn-social" onclick="alert('Google регистрация скоро!')">
+        <span>🔵</span> Регистрация с Google
+      </button>
+      <button type="button" class="btn-social" onclick="alert('Facebook регистрация скоро!')">
+        <span>🔷</span> Регистрация с Facebook
+      </button>
+
+    </form>
+
+    <p class="auth-switch">Вече имаш профил? <a href="login.html">Влез</a></p>
+  </div>
+</main>
+
+<script src="js/entities/register.js"></script>
+
+
+
+</body>
+</html>
