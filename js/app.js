@@ -229,13 +229,13 @@ function renderCards() {
         </div>
       </div>
       <div class="inst-info">
-        <div class="inst-row">📍 ${item.address}, Бургас</div>
-        <div class="inst-row">🕐 ${item.hours}</div>
-        <div class="inst-row"><a href="tel:${item.phone.replace(/\s/g,'')}" class="inst-link">📞 ${item.phone}</a></div>
-        <div class="inst-row"><a href="mailto:${item.email}" class="inst-link">✉️ ${item.email}</a></div>
+        <div class="inst-row">${item.address}, Бургас</div>
+        <div class="inst-row">${item.hours}</div>
+        <div class="inst-row"><a href="tel:${item.phone.replace(/\s/g,'')}" class="inst-link"> +359 ${item.phone}</a></div>
+        <div class="inst-row"><a href="mailto:${item.email}" class="inst-link">${item.email}</a></div>
       </div>
       <div class="card-tags" style="margin-bottom:14px">${tags}</div>
-      <a href="${item.website}" target="_blank" class="btn-navy" style="display:block;text-align:center;font-size:13px;padding:9px">🌐 Официален сайт</a>
+      <a href="${item.website}" target="_blank" class="btn-navy" style="display:block;text-align:center;font-size:13px;padding:9px">Официален сайт</a>
     </div>`;
   }).join('');
 }
@@ -293,11 +293,13 @@ document.addEventListener('DOMContentLoaded', function() {
     institutionsBtn.addEventListener('click', openModal);
   }
 
+  // Hook up close button
   var institutionsCloseBtn = document.getElementById('institutionsCloseBtn');
   if (institutionsCloseBtn) {
     institutionsCloseBtn.addEventListener('click', closeModal);
   }
 
+  // Hook up search input
   var modalSearch = document.getElementById('modalSearch');
   if (modalSearch) {
     modalSearch.addEventListener('input', filterInstitutions);
