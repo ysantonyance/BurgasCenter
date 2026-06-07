@@ -43,27 +43,31 @@ nav {
   justify-content: center;
   gap: 16px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
   padding: 0 8px;
 }
 
 .logo img {
 
   padding: 4px;
-
-  width: 70px;
-  height: 70px;
+  width: 30px;
+  height: 30px;
 }
 
 .nav-logo a {
   border-radius: 8px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
   display: inline-block;
   font-size: 20px;
   font-weight: bold;
   color: #35546E;
   text-decoration: none;
+}
+
+.cat-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .nav-links {
@@ -72,22 +76,21 @@ nav {
   list-style: none;
   margin: 0;
   border: 1.5px solid #479438;
-  background: rgba(255, 255, 255, 0.85);
+  background: white;
   text-align: center;
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  padding: 9px 19px;
+  padding: 0;
 }
 
 .nav-links li a {
-
-
-
   color: #479438;
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
+  padding: 9px 19px;
+  border-radius: 20px;
   transition: all 0.3s ease;
   display: inline-block;
 }
@@ -145,7 +148,7 @@ nav {
   padding: 12px 20px;
   margin-top: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  width: 230px;
+  width: 250px;
   color: white;
   margin-left: auto;
   margin-right: auto;
@@ -229,8 +232,8 @@ nav {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  margin-top: -95px;
-  padding-top: 95px;
+  margin-top: -67px;
+  padding-top: 67px;
 }
 
 .hero-overlay {
@@ -253,13 +256,18 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
+  top: -110px;
 }
 
 .hero-text h1 {
-  font-size: 48px;
+  font-size: 90px;
   color: #35546E;
   margin-bottom: 12px;
-  width: 800px;
+  width: 900px;
+  background: linear-gradient(0deg, #000000 0%, #305581 50%, #477fa6 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-text p {
@@ -269,6 +277,11 @@ nav {
   max-width: 480px;
   line-height: 1.6;
   width: 800px;
+  font-weight: bold;
+  background: linear-gradient(0deg, #000000 0%, #1a3a5c 50%, #2c5a7a 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-buttons {
