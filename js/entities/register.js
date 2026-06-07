@@ -1,12 +1,16 @@
-  function togglePassword(fieldId, btn) {
+function togglePassword(fieldId, btn) {
   var field = document.getElementById(fieldId);
+  var img = btn.querySelector('img');
+
   if (field.type === 'password') {
-  field.type = 'text';
-  btn.textContent = '🙈';
-} else {
-  field.type = 'password';
-  btn.textContent = '👁️';
-}
+    field.type = 'text';
+    img.src = 'eye.png';
+    img.alt = 'скрий';
+  } else {
+    field.type = 'password';
+    img.src = 'eye-crossed.png';
+    img.alt = 'покажи';
+  }
 }
 
   document.getElementById('registerForm').addEventListener('submit', function(e) {
