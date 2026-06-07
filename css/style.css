@@ -5,6 +5,8 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f2f8;
   color: #35546E;
@@ -16,15 +18,23 @@ a {
 }
 
 nav {
-  background-color: white;
+  background: transparent !important;
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 12px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+  background: transparent !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .logo {
@@ -32,85 +42,127 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0 8px;
 }
 
 .logo img {
+
+  padding: 4px;
+
   width: 70px;
   height: 70px;
 }
 
-.nav-logo {
+.nav-logo a {
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  display: inline-block;
   font-size: 20px;
   font-weight: bold;
   color: #35546E;
+  text-decoration: none;
 }
 
 .nav-links {
   display: flex;
-  gap: 24px;
+  gap: 12px;
   list-style: none;
+  margin: 0;
+  border: 1.5px solid #479438;
+  background: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 9px 19px;
 }
 
-.nav-links a {
+.nav-links li a {
+
+
+
   color: #479438;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-.nav-links a:hover {
-  color: #35546E;
+.nav-links li a:hover {
+  background: #479438;
+  color: white !important;
+  border-color: #35546E;
+  transform: translateY(-2px);
 }
 
 .nav-buttons {
   display: flex;
   gap: 10px;
+  background: white;
+  border-radius: 15px;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: white;
+  color: #35546E;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.btn-navy button {
+  border-color: #35546E;
+  color: white;
+}
+
+.btn-green {
+  border-color: #479438;
+  color: white;
+}
+
+.nav-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero-text.progress-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-section {
-  background: rgba(255,255,255,0.95);
+  background: rgb(92 83 83 / 0.56);
   border-radius: 16px;
-  padding: 20px;
+  padding: 12px 20px;
   margin-top: 30px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  width: 230px;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.progress-header {
+.progress-line {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #35546E;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+  text-align: center;
 }
 
-.progress-number {
-  color: #479438;
-  font-size: 20px;
-}
-
-.progress-bar-container {
-  background: #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 12px;
-}
-
-.progress-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #479438, #6abf55);
-  border-radius: 10px;
-  animation: fillProgress 2s ease-out forwards;
-}
-
-@keyframes fillProgress {
-  from { width: 0%; }
-  to { width: 24%; }
-}
-
-.progress-goal {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 11px;
-  color: #888;
+.progress-line strong {
+  color: white;
 }
 
 .btn-green {
@@ -171,12 +223,14 @@ nav {
 
 #hero.hero-with-bg {
   position: relative;
-  background-image: url('/hannah-busing-Zyx1bK9mqmA-unsplash.jpg');
+  background-image: url('/train-window.jpg');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
   display: flex;
   align-items: center;
+  margin-top: -95px;
+  padding-top: 95px;
 }
 
 .hero-overlay {
@@ -185,40 +239,36 @@ nav {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
 }
 
 .hero-text {
   position: relative;
   z-index: 1;
   color: white;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   text-align: center;
   padding: 40px;
-  background-color: rgb(255 255 255 / 0.66);
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-text h1 {
   font-size: 48px;
   color: #35546E;
   margin-bottom: 12px;
-}
-
-.hero-text .subtitle {
-  font-size: 22px;
-  color: #479438;
-  font-weight: bold;
-  margin-bottom: 10px;
+  width: 800px;
 }
 
 .hero-text p {
   font-size: 16px;
-  color: #666;
+  color: #152c3c;
   margin-bottom: 24px;
   max-width: 480px;
   line-height: 1.6;
+  width: 800px;
 }
 
 .hero-buttons {
@@ -647,7 +697,6 @@ footer {
   margin-right: auto;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   nav {
     padding: 12px 20px;
@@ -680,8 +729,6 @@ footer {
   }
 }
 
-
-/* ===== МОДАЛ: ИНСТИТУЦИИ ===== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -814,14 +861,13 @@ footer {
 
 .modal-grid {
   overflow-y: auto;
+  max-height: calc(80vh - 180px);
   padding: 12px 28px 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
-  align-content: start;
 }
 
-/* карточки институций внутри модала */
 .inst-card {
   background: #f8f9fc;
   border: 1px solid #e0e0e0;
