@@ -10,7 +10,7 @@
 
 <nav>
   <div class="logo">
-    <a href="index.html"><img src="logo_proekt.png" alt=""></a>
+    <a href="index.html"><img src="изображение_viber_2026-06-07_12-33-31-567.png" alt=""></a>
     <div class="nav-logo"><a href="index.html">БУРГАС СЕ ГРИЖИ</a></div>
   </div>
 
@@ -20,7 +20,7 @@
     <li><a href="#features">УСЛУГИ</a></li>
     <li><a href="#jobs">ОБЯВИ</a></li>
     <li><a href="#testimonials">ОТЗИВИ</a></li>
-    <li><a href="#footer">КОНТАКИ</a></li>
+    <li><a href="#footer">КОНТАКТИ</a></li>
   </ul>
 
   <div class="nav-buttons">
@@ -32,6 +32,15 @@
 <section id="hero" class="hero-with-bg">
   <div class="hero-overlay"></div>
   <div class="hero-text">
+    <div class="progress-section">
+      <div class="progress-header">
+        <span>Помогнахме на</span>
+        <span class="progress-number"><span id="progressCounter">0</span> души</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
     <h1>Помощ без лутане</h1>
     <p class="subtitle">Грижа. Посока. Решение.</p>
     <p>Платформата, която свързва хората в нужда с доброволци, организации и институции. Заедно намираме решения.</p>
@@ -42,25 +51,11 @@
     </div>
 
     <button class="btn-red">⚠️ Незабавна помощ</button>
-    <div class="progress-section">
-      <div class="progress-header">
-        <span>Помогнахме на</span>
-        <span class="progress-number"><span id="progressCounter">0</span> души</span>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div class="progress-goal">
-        <span>Цел: 5,000 души</span>
-        <span>24% от целта</span>
-      </div>
-    </div>
 
   </div>
 </section>
 
 <div class="hero-cards">
-
   <div class="card">
     <div class="card-header">
       <div class="card-icon icon-red">🚨</div>
@@ -102,25 +97,21 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <section id="how" class="section">
   <h2>Как работи?</h2>
-
   <div class="steps">
     <div class="step">
       <div class="step-number green">1</div>
       <h4>Сподели проблема</h4>
       <p>Опиши от какво имаш нужда – бързо и лесно, без формалности.</p>
     </div>
-
     <div class="step">
       <div class="step-number blue">2</div>
       <h4>Общността реагира</h4>
       <p>Доброволци и организации виждат заявката и предлагат решения.</p>
     </div>
-
     <div class="step">
       <div class="step-number navy">3</div>
       <h4>Намери решение</h4>
@@ -132,37 +123,30 @@
 <section id="features" class="section">
   <h2>Как можем да помогнем?</h2>
   <p class="section-desc">Три начина да намериш подкрепа или да подкрепиш другите</p>
-
   <div class="features-grid">
-
     <div class="feature-card">
       <div class="feature-icon" style="background-color: #edfff0;">👥</div>
       <h3>Помощ от хора</h3>
       <p>Свържи се с доброволци и съседи, готови да помогнат с конкретни нужди.</p>
     </div>
-
     <div class="feature-card">
       <div class="feature-icon" style="background-color: #eef4ff;">🏛️</div>
       <h3>Връзка с институции</h3>
       <p>Намери правилната организация или служба, която може да реши проблема ти.</p>
-      <button class="btn-navy" style="margin-top: 16px; width: 100%;" onclick="openModal()">Виж институциите →</button>
+      <button class="btn-navy" id="institutionsBtn" style="margin-top: 16px; width: 100%;">Виж институциите ></button>
     </div>
-
     <div class="feature-card">
       <div class="feature-icon" style="background-color: #e8edf2;">📢</div>
       <h3>Обществени каузи</h3>
       <p>Включи се в каузи, които променят общността и живота на хората около теб.</p>
     </div>
-
   </div>
 </section>
 
 <section id="jobs" class="section">
   <h2>Обяви за помощ</h2>
   <p class="section-desc">Реални заявки от хора в Бургас, които имат нужда от теб</p>
-
   <div class="jobs-grid">
-
     <div class="job-card">
       <div class="job-image" style="background-color: #edfff0;">🛍️</div>
       <div class="job-body">
@@ -173,7 +157,6 @@
         <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
       </div>
     </div>
-
     <div class="job-card">
       <div class="job-image" style="background-color: #eef4ff;">📚</div>
       <div class="job-body">
@@ -184,7 +167,6 @@
         <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
       </div>
     </div>
-
     <div class="job-card">
       <div class="job-image" style="background-color: #f0fff0;">🔧</div>
       <div class="job-body">
@@ -195,15 +177,12 @@
         <button class="btn-green btn-help" style="width: 100%;">Мога да помогна</button>
       </div>
     </div>
-
   </div>
 </section>
 
 <section id="testimonials" class="section">
   <h2>Истории на успеха</h2>
-
   <div class="testimonials-grid">
-
     <div class="testimonial-card">
       <div class="testimonial-header">
         <div class="avatar avatar-green">М</div>
@@ -215,7 +194,6 @@
       <p class="testimonial-text">"За 2 дни намерих доброволец, който помогна на майка ми с ежедневните покупки. Благодаря на тази платформа!"</p>
       <div class="stars">★★★★★</div>
     </div>
-
     <div class="testimonial-card">
       <div class="testimonial-header">
         <div class="avatar avatar-blue">Г</div>
@@ -227,7 +205,6 @@
       <p class="testimonial-text">"Като доброволец вече съм помогнал на 15 семейства. Чувството е невероятно – да знаеш, че правиш разлика."</p>
       <div class="stars">★★★★★</div>
     </div>
-
     <div class="testimonial-card">
       <div class="testimonial-header">
         <div class="avatar avatar-navy">Е</div>
@@ -239,7 +216,6 @@
       <p class="testimonial-text">"Институцията, с която ме свързаха, реши казуса ми за седмица. Не знаех, че има такава услуга!"</p>
       <div class="stars">★★★★★</div>
     </div>
-
   </div>
 </section>
 
@@ -256,12 +232,10 @@
 
 <footer id="footer">
   <div class="footer-grid">
-
     <div class="footer-col">
       <div class="footer-logo">Грижа, Посока, Решение</div>
       <p>Платформа за взаимопомощ и общностна подкрепа в България.</p>
     </div>
-
     <div class="footer-col">
       <h5>Навигация</h5>
       <a href="#hero">Начало</a>
@@ -269,47 +243,38 @@
       <a href="#jobs">Обяви</a>
       <a href="#footer">Контакти</a>
     </div>
-
     <div class="footer-col">
       <h5>Правна информация</h5>
       <a href="#">Общи условия</a>
       <a href="#">Политика за поверителност</a>
       <a href="#">Бисквитки</a>
     </div>
-
     <div class="footer-col">
       <h5>Контакти</h5>
       <p>info@gpr.bg</p>
       <p>+359 56 123 4567</p>
     </div>
-
   </div>
-
   <div class="footer-bottom">
     © 2024 Грижа, Посока, Решение. Всички права запазени.
   </div>
 </footer>
 
-<div id="institutionsModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+<div id="institutionsModal" class="modal-overlay">
   <div class="modal-box">
-
     <div class="modal-header">
       <div>
         <h2 class="modal-title">🏛️ Институции в Бургас</h2>
         <p class="modal-subtitle">Намери правилната служба и нейните контакти</p>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" id="institutionsCloseBtn">✕</button>
     </div>
-
     <div class="modal-controls">
-      <input type="text" id="modalSearch" class="modal-search" placeholder="🔍  Търси по название, услуга…" oninput="filterInstitutions()">
+      <input type="text" id="modalSearch" class="modal-search" placeholder="Търси по название, услуга…">
       <div class="modal-filters" id="modalFilters"></div>
     </div>
-
     <div class="modal-count" id="modalCount"></div>
-
     <div class="modal-grid" id="modalGrid"></div>
-
   </div>
 </div>
 
