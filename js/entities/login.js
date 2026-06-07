@@ -1,11 +1,15 @@
 function togglePassword(fieldId, btn) {
   var field = document.getElementById(fieldId);
+  var img = btn.querySelector('img');
+
   if (field.type === 'password') {
     field.type = 'text';
-    btn.textContent = '🙈';
+    img.src = 'eye.png';
+    img.alt = 'скрий';
   } else {
     field.type = 'password';
-    btn.textContent = '👁️';
+    img.src = 'eye-crossed.png';
+    img.alt = 'покажи';
   }
 }
 
