@@ -21,7 +21,6 @@ navLinks.forEach(function(link) {
   });
 });
 
-
 var helpButtons = document.querySelectorAll('.btn-help');
 helpButtons.forEach(function(btn) {
   btn.addEventListener('click', function() {
@@ -156,11 +155,14 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('institutionsModal')) closeModal();
-}
-
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+var institutionsModal = document.getElementById('institutionsModal');
+if (institutionsModal) {
+  institutionsModal.addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+}
 
 function buildFilters() {
   const wrap = document.getElementById('modalFilters');
@@ -285,4 +287,19 @@ function animateProgressCounter() {
 
 document.addEventListener('DOMContentLoaded', function() {
   animateProgressCounter();
+
+  var institutionsBtn = document.getElementById('institutionsBtn');
+  if (institutionsBtn) {
+    institutionsBtn.addEventListener('click', openModal);
+  }
+
+  var institutionsCloseBtn = document.getElementById('institutionsCloseBtn');
+  if (institutionsCloseBtn) {
+    institutionsCloseBtn.addEventListener('click', closeModal);
+  }
+
+  var modalSearch = document.getElementById('modalSearch');
+  if (modalSearch) {
+    modalSearch.addEventListener('input', filterInstitutions);
+  }
 });
